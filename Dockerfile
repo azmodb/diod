@@ -1,6 +1,6 @@
 FROM alpine:3.7 as builder
 
-RUN set -eux; apk add --no-cache --virtual .diod-build-deps \
+RUN set -eux; apk add --no-cache --virtual .diod-build-dependencies \
 		automake autoconf \
 		attr-dev \
 		binutils \
@@ -23,7 +23,7 @@ RUN set -eux; apk add --no-cache --virtual .diod-build-deps \
 	./autogen.sh; \
 	./configure; \
 	make; \
-	apk del .diod-build-deps
+	apk del .diod-build-dependencies
 
 FROM alpine:3.7
 
@@ -34,7 +34,7 @@ RUN set -eux; apk add --no-cache \
 	libcap
 
 VOLUME /export
+EXPOSE 5640
 
-ENTRYPOINT ["/bin/diod", "-f"]
-
-CMD ["-e", "/export", "-n", "-L", "stderr"]
+ENTRYPOINT ["diod", "--foreground", "--listen", "0.0.0.0:5640"]
+CMD ["--export", "/export", "--no-auth", "--logdest", "stderr"]

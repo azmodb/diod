@@ -1,14 +1,12 @@
 REPONAME=marraison
 NAME=diod
-VERSION=0.1
+VERSION=0.2
 
 build: Dockerfile
-	@docker build --tag=$(REPONAME)/$(NAME):$(VERSION) \
-		--tag=$(REPONAME)/$(NAME):latest .
+	@docker build --tag=$(REPONAME)/$(NAME):$(VERSION) .
 
 push: build
 	@docker push $(REPONAME)/$(NAME):$(VERSION)
-	@docker push $(REPONAME)/$(NAME):latest
 
 clean:
 	@echo -n
