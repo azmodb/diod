@@ -1,4 +1,4 @@
-FROM alpine:3.7 as builder
+FROM alpine:3.9 as builder
 
 RUN set -eux; apk add --no-cache --virtual .diod-build-dependencies \
 		automake autoconf \
@@ -25,7 +25,7 @@ RUN set -eux; apk add --no-cache --virtual .diod-build-dependencies \
 	make; \
 	apk del .diod-build-dependencies
 
-FROM alpine:3.7
+FROM alpine:3.9
 
 COPY --from=builder /tmp/diod/diod/diod /bin/diod
 
